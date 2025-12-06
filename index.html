@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boyfriend Profile: Relationship Candidate</title>
+    <!-- Load Tailwind CSS for modern, responsive styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Use a monospaced font to mimic a code editor or terminal */
+        body {
+            font-family: 'Inter', monospace;
+            scroll-behavior: smooth;
+        }
+        /* Style for the code blocks and data sections */
+        .code-block {
+            background-color: #1f2937; /* Darker gray for code background */
+            border-left: 4px solid #34d399; /* Green border accent */
+        }
+        /* Custom animation for the button */
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
+        }
+        .deploy-button {
+            animation: pulse-green 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 min-h-screen p-4 sm:p-8">
+
+    <div id="app" class="max-w-4xl mx-auto">
+        <header class="text-center py-6 border-b border-gray-700 mb-8">
+            <div class="flex items-center justify-center">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-green-400">
+                    Boyfriend Resume
+                </h1>
+                <!-- Simplified Status Badge -->
+                <span class="ml-4 inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-green-900 text-green-300 ring-1 ring-green-600">
+                    STATUS: Ready for Review
+                </span>
+            </div>
+            <p class="text-lg text-gray-500 mt-2">
+                Candidate Objective: <span id="objective-output" class="text-gray-400 italic">...loading objective...</span>
+            </p>
+        </header>
+
+        <!-- Main Content Area - Mimics a structured document/console -->
+        <main class="space-y-10">
+
+            <!-- Core Profile Block -->
+            <div class="code-block p-4 rounded-lg">
+                <h2 class="text-xl font-bold text-green-300 mb-2">// Core Profile Variables</h2>
+                <div class="ml-4 text-sm">
+                    <p><span class="text-yellow-400">profile</span> = {</p>
+                    <p class="ml-4">name: <span class="text-red-400">"Ramy Ayash"</span>,</p>
+                    <p class="ml-4">status: <span class="text-blue-400">"Available"</span>,</p>
+                    <p>}</p>
+                    <p class="text-green-500 mt-2">Log: Profile data successfully retrieved.</p>
+                </div>
+            </div>
+
+            <!-- Job Experience -->
+            <section>
+                <h2 class="text-2xl font-bold text-green-300 mb-4 border-b border-gray-700 pb-2">
+                    &gt; Experience: Ranked by Dating Relevance
+                </h2>
+                <div id="experience-output" class="space-y-6">
+                    <!-- Content will be generated here -->
+                </div>
+            </section>
+            
+            <!-- Volunteering -->
+            <section>
+                <h2 class="text-2xl font-bold text-green-300 mb-4 border-b border-gray-700 pb-2">
+                    &gt; Volunteering / Community Service
+                </h2>
+                <div id="volunteering-output" class="space-y-6">
+                    <!-- Content will be generated here -->
+                </div>
+            </section>
+
+            <!-- Skills and Languages -->
+            <section class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-green-300 mb-4 border-b border-gray-700 pb-2">
+                        &gt; Skills &amp; Hobbies List
+                    </h2>
+                    <ul id="skills-output" class="list-disc list-inside space-y-1 ml-4 text-sm text-gray-400">
+                        <!-- Content will be generated here -->
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-green-300 mb-4 border-b border-gray-700 pb-2">
+                        &gt; Communication Protocols
+                    </h2>
+                    <ul id="languages-output" class="space-y-1 ml-4 text-sm">
+                        <!-- Content will be generated here -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- References -->
+            <section>
+                <h2 class="text-2xl font-bold text-green-300 mb-4 border-b border-gray-700 pb-2">
+                    &gt; References
+                </h2>
+                <div class="code-block p-4 rounded-lg text-sm text-gray-400">
+                    <p><span class="text-indigo-400">Check</span> Reference(<span class="text-red-400">"Donna, my cat"</span>) {</p>
+                    <p class="ml-4">Rating: <span class="text-blue-400">High Loyalty</span></p>
+                    <p class="ml-4">Note: <span class="text-yellow-400">Requires increased snack frequency.</span></p>
+                    <p>}</p>
+                    <p class="mt-2 text-green-500">Output: Confirmed: Loyalty 10/10.</p>
+                </div>
+            </section>
+
+            <!-- Deployment Button -->
+            <div class="text-center pt-8">
+                <button id="deploy-button"
+                        class="deploy-button bg-green-500 hover:bg-green-600 text-gray-900 font-extrabold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 shadow-lg">
+                    Initiate Relationship Protocol
+                </button>
+                <p id="deployment-message" class="mt-4 text-lg text-gray-400 hidden">
+                    <span class="text-red-500">Access Denied:</span> Manual acceptance required before protocol can proceed. Please contact candidate.
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Store the resume data as a structured JSON object
+        const rawConfig = `
+        {
+            "objective": "To charm, support, and bring maximum fun into your life",
+            "experience": [
+                {
+                    "title": "Captain, Chess Club, Grade 5",
+                    "duration": "2007-2008",
+                    "bulletPoints": [
+                        "Led the Grade 5 Chess Club through thrilling, action packed competitions",
+                        "Coordinated parental communications with professionalism rarely seen in 10 year olds"
+                    ]
+                },
+                {
+                    "title": "Proud Owner, 3 Vacuums",
+                    "duration": "2025-Present",
+                    "bulletPoints": [
+                        "Proud owner of not one, not two, but three vacuums",
+                        "Demonstrated excellence in suction-based home maintenance",
+                        "Located at 18 Harbour St. Unit 2103 (where dust fears to tread)"
+                    ]
+                },
+                {
+                    "title": "Big Nerd, Life",
+                    "duration": "1996-Present",
+                    "bulletPoints": [
+                        "Just a big nerd. There's no hiding it. It is both a weakness and a strength."
+                    ]
+                },
+                {
+                    "title": "Not a Bad Cook",
+                    "duration": "2014-Present",
+                    "bulletPoints": [
+                        "Capable of producing decent (sometimes even impressive?) meals",
+                        "Will ensure you are never hangry",
+                        "Owns nice plates, which demonstrates taste AND maturity"
+                    ]
+                },
+                {
+                    "title": "Dedicated Fan, Toronto Maple Leafs",
+                    "duration": "2014-Present",
+                    "bulletPoints": [
+                        "Deep experience processing heartbreak, hope, grief, and perseverance",
+                        "Consistent loyalty represents excellent long term relationship potential",
+                        "Emotional resilience: 10/10"
+                    ]
+                },
+                {
+                    "title": "Shotgunned a beer after my Formal Methods Exam",
+                    "duration": "2018",
+                    "bulletPoints": [
+                        "An important character-building moment."
+                    ]
+                }
+            ],
+            "volunteering": [
+                {
+                    "title": "Taught teenagers at Kingston Frontenac Public Library how to code",
+                    "duration": "2015–2017",
+                    "bulletPoints": [
+                        "May have called them “pimple farmers” — character building for everyone"
+                    ]
+                },
+                {
+                    "title": "Designed websites for non profits",
+                    "duration": "2014–2016",
+                    "bulletPoints": [
+                        "Created websites for non profits using outdated tech (I didn’t know better, but the heart was pure)"
+                    ]
+                }
+            ],
+            "languages": {
+                "Python": "Native/Primary Language",
+                "Southern Ontario English": "Except the words \\"about\\" and \\"Nova Scotia\\"",
+                "Something that kinda sounds like French": "",
+                "Semi-Broken Arabic": "Functional for directions, vibes, and bargaining",
+                "C++": "",
+                "Java": ""
+            },
+            "skills": [
+                "A few dance moves",
+                "Can fix printers and other household devices",
+                "Washes bedsheets regularly",
+                "Knows how to unplug sinks",
+                "Squash",
+                "Beer and beer-related activities",
+                "Photography",
+                "Traveling",
+                "Hiking",
+                "Tubing",
+                "Reading the news everyday"
+            ]
+        }
+        `;
+        const resumeData = JSON.parse(rawConfig);
+
+        const objectiveEl = document.getElementById('objective-output');
+        const experienceEl = document.getElementById('experience-output');
+        const volunteeringEl = document.getElementById('volunteering-output'); // Added volunteering element
+        const skillsEl = document.getElementById('skills-output');
+        const languagesEl = document.getElementById('languages-output');
+        const deployButton = document.getElementById('deploy-button');
+        const deploymentMessage = document.getElementById('deployment-message');
+
+        // Generic function to render job/volunteering sections
+        function renderJobSection(data, element) {
+            element.innerHTML = data.map(job => `
+                <div class="code-block p-4 rounded-lg">
+                    <h3 class="font-semibold text-base text-white">${job.title} <span class="text-sm text-gray-500">(${job.duration})</span></h3>
+                    <ul class="list-disc list-inside ml-4 mt-1 text-sm text-gray-400 space-y-0.5">
+                        ${job.bulletPoints.map(point => `<li>${point}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        // Function to render the skills and hobbies
+        function renderSkills() {
+            // Updated rendering to remove the .add jargon
+            skillsEl.innerHTML = resumeData.skills.map(skill => `
+                <li class="flex items-start">
+                    <span class="text-green-400 mr-2">&#10003;</span> <span class="text-white">${skill}</span>
+                </li>
+            `).join('');
+        }
+
+        // Function to render the languages - MODIFIED to conditionally include the colon
+        function renderLanguages() {
+            languagesEl.innerHTML = Object.entries(resumeData.languages).map(([lang, desc]) => {
+                let content;
+                // Only include the colon and description if the description (desc) is not an empty string
+                if (desc === "") {
+                    // If description is empty, display just the language name
+                    content = `<span class="font-bold text-yellow-400">${lang}</span>`;
+                } else {
+                    // Otherwise, include the colon and description
+                    content = `<span class="font-bold text-yellow-400">${lang}:</span> <span class="text-white">${desc}</span>`;
+                }
+                return `<li class="text-gray-400">${content}</li>`;
+            }).join('');
+        }
+
+        // Initialize the App UI
+        document.addEventListener('DOMContentLoaded', () => {
+            objectiveEl.textContent = resumeData.objective;
+            
+            // Render Experience and Volunteering using the generic function
+            if (resumeData.experience && experienceEl) renderJobSection(resumeData.experience, experienceEl);
+            if (resumeData.volunteering && volunteeringEl) renderJobSection(resumeData.volunteering, volunteeringEl);
+
+            renderSkills();
+            renderLanguages();
+
+            // Button click interaction
+            deployButton.addEventListener('click', () => {
+                deployButton.disabled = true;
+                deployButton.classList.remove('deploy-button', 'bg-green-500');
+                deployButton.classList.add('bg-indigo-500');
+                deployButton.textContent = "Processing Protocol...";
+
+                // Simulate deployment delay
+                setTimeout(() => {
+                    deploymentMessage.classList.remove('hidden');
+                    deployButton.textContent = "Protocol Failure: See Access Denied Message";
+                    deployButton.classList.remove('bg-indigo-500');
+                    deployButton.classList.add('bg-red-600');
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
